@@ -33,49 +33,77 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; transition: background 0.3s, color 0.3s; }
         body { background-color: var(--bg); color: var(--main-text); line-height: 1.6; overflow-x: hidden; }
 
-        /* --- شاشة الترحيب فائقة السرعة والأمان --- */
+        /* =======================================================
+           شاشة الترحيب الإبداعية الجديدة (تأثير اللمعة والدخول الفخم)
+           ======================================================= */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, var(--white) 0%, var(--bg) 100%); z-index: 9999;
             display: flex; justify-content: center; align-items: center;
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.6s ease;
             opacity: 1;
         }
         
-        .loader-content { text-align: center; padding: 0 20px; }
+        /* تأثير دخول المحتوى بالكامل من أسفل لأعلى ببطء وفخامة */
+        .loader-content { 
+            text-align: center; 
+            padding: 0 20px; 
+            animation: premiumEntrance 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
         
-        /* أنيميشن صعود وهبوط ناعم جداً وبدون أي تعليق أو نغمشة */
+        @keyframes premiumEntrance {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* حاوية اللوجو لعمل تأثير اللمعة السحرية الممررة */
+        .logo-wrapper {
+            position: relative;
+            width: 150px; height: 150px;
+            margin: 0 auto 25px auto;
+            border-radius: 38px;
+            overflow: hidden; /* لمنع خروج اللمعة برة حدود اللوجو */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            animation: gentlePulse 3s infinite ease-in-out 1.5s;
+        }
+
         .loader-logo-big {
-            width: 140px; height: 140px; border-radius: 35px;
-            margin-bottom: 25px;
+            width: 100%; height: 100%;
             object-fit: cover; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            display: inline-block;
-            animation: smoothFloat 2s infinite ease-in-out;
-            -webkit-animation: smoothFloat 2s infinite ease-in-out;
+            display: block;
         }
         
-        @keyframes smoothFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        /* تأثير اللمعة (Shine Effect) الفاخر */
+        .logo-wrapper::after {
+            content: '';
+            position: absolute; top: 0; left: -150%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: shine 2.5s infinite ease-in-out 1s;
         }
-
-        @-webkit-keyframes smoothFloat {
-            0%, 100% { -webkit-transform: translateY(0px); }
-            50% { -webkit-transform: translateY(-10px); }
-        }
-
-        .loader-text { font-weight: 800; color: var(--accent); font-size: 2.2rem; margin-bottom: 5px; letter-spacing: -0.5px; }
-        .loader-slogan { font-size: 1.1rem; color: var(--desc-text); font-weight: 600; opacity: 0.9; }
         
-        /* شريط التحميل */
-        .loading-bar { width: 140px; height: 4px; background: rgba(0,0,0,0.06); margin: 25px auto 0 auto; border-radius: 10px; overflow: hidden; position: relative; }
-        .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--accent), #e67e22); animation: progress 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes shine {
+            0% { left: -150%; }
+            50%, 100% { left: 150%; }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        .loader-text { font-weight: 800; color: var(--accent); font-size: 2.4rem; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .loader-slogan { font-size: 1.15rem; color: var(--desc-text); font-weight: 600; opacity: 0.9; }
+        
+        /* شريط التحميل الانسيابي الدقيق */
+        .loading-bar { width: 160px; height: 5px; background: rgba(0,0,0,0.06); margin: 30px auto 0 auto; border-radius: 10px; overflow: hidden; position: relative; }
+        .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--accent), #e67e22); animation: progress 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         @keyframes progress { from { width: 0; } to { width: 100%; } }
         
-        /* كلاس الاختفاء السريع (تم مسح الـ blur تماماً لإنهاء النغمشة) */
+        /* خروج ذكي للأعلى بدون أي تفاصيل تعليق أو نغمشة */
         .splash-hidden { 
-            transform: scale(1.1);
+            transform: translateY(-100%); 
             opacity: 0; 
             pointer-events: none; 
         }
@@ -236,7 +264,9 @@
 
     <div id="splash-screen">
         <div class="loader-content">
-            <img src="./images/logggo.jpg" class="loader-logo-big" onerror="this.src='images/logggo.jpg'">
+            <div class="logo-wrapper">
+                <img src="./images/logggo.jpg" class="loader-logo-big" onerror="this.src='images/logggo.jpg'">
+            </div>
             <h2 class="loader-text">برجر بابا</h2>
             <p class="loader-slogan">الطعم اللي صاحي معاك 24 ساعة 🍔</p>
             <div class="loading-bar"><span></span></div>
@@ -301,14 +331,14 @@
         let menuData = [], cart = [];
         let currentTotal = 0; 
 
-        // الحل الجذري: إخفاء الشاشة إجبارياً بعد ثانيتين بدون انتظار أي عمليات خارجية
-        setTimeout(dismissSplashScreen, 2000);
+        // إخفاء الشاشة إجبارياً بعد 4 ثواني كاملة ليعطي وقت وهيبة للأنيميشن واللمعة
+        setTimeout(dismissSplashScreen, 4000);
 
         function dismissSplashScreen() {
             const splash = document.getElementById('splash-screen');
             if (splash) {
                 splash.classList.add('splash-hidden');
-                setTimeout(() => { if(splash) splash.remove(); }, 500); 
+                setTimeout(() => { if(splash) splash.remove(); }, 800); 
             }
         }
 
@@ -338,8 +368,6 @@
                 }).filter(i => i.nameAr);
                 
                 renderNav();
-                // إذا انتهى التحميل قبل الثانيتين نلغيها فوراً
-                dismissSplashScreen();
             } catch (e) { 
                 console.error(e);
                 dismissSplashScreen();
