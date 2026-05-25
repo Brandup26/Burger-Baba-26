@@ -2,10 +2,18 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>برجر بابا | المنيو الرسمي</title>
     
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="برجر بابا">
+    <link rel="apple-touch-icon" href="images/logggo.jpg">
     <link class="brand-logo-img" rel="apple-touch-icon" href="images/logggo.jpg">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#d35400">
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -16,7 +24,7 @@
             --accent: #d35400;
             --address-tag: #0a84ff;
             --white: #f2f2f7; 
-            --glass: rgba(242, 242, 247, 0.8);
+            --glass: rgba(242, 242, 247, 0.85);
             --success: #2ecc71;
             --header-bg: #f2f2f7;
         }
@@ -26,16 +34,14 @@
             --main-text: #f2f2f7;
             --desc-text: #aeaeb2;
             --white: #1c1c1e;
-            --glass: rgba(28, 28, 30, 0.8);
+            --glass: rgba(28, 28, 30, 0.85);
             --header-bg: #1c1c1e;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; transition: background 0.3s, color 0.3s; }
         body { background-color: var(--bg); color: var(--main-text); line-height: 1.6; overflow-x: hidden; }
 
-        /* =======================================================
-           شاشة الترحيب الإبداعية الجديدة (تأثير اللمعة والدخول الفخم)
-           ======================================================= */
+        /* --- شاشة الترحيب الفخمة --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, var(--white) 0%, var(--bg) 100%); z-index: 9999;
@@ -44,7 +50,6 @@
             opacity: 1;
         }
         
-        /* تأثير دخول المحتوى بالكامل من أسفل لأعلى ببطء وفخامة */
         .loader-content { 
             text-align: center; 
             padding: 0 20px; 
@@ -56,24 +61,19 @@
             100% { transform: translateY(0); opacity: 1; }
         }
 
-        /* حاوية اللوجو لعمل تأثير اللمعة السحرية الممررة */
         .logo-wrapper {
             position: relative;
             width: 150px; height: 150px;
             margin: 0 auto 25px auto;
             border-radius: 38px;
-            overflow: hidden; /* لمنع خروج اللمعة برة حدود اللوجو */
+            overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             animation: gentlePulse 3s infinite ease-in-out 1.5s;
         }
 
-        .loader-logo-big {
-            width: 100%; height: 100%;
-            object-fit: cover; 
-            display: block;
-        }
+        .loader-logo-big { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        /* تأثير اللمعة (Shine Effect) الفاخر */
+        /* تأثير اللمعة الفاخرة */
         .logo-wrapper::after {
             content: '';
             position: absolute; top: 0; left: -150%;
@@ -96,47 +96,49 @@
         .loader-text { font-weight: 800; color: var(--accent); font-size: 2.4rem; margin-bottom: 5px; letter-spacing: -0.5px; }
         .loader-slogan { font-size: 1.15rem; color: var(--desc-text); font-weight: 600; opacity: 0.9; }
         
-        /* شريط التحميل الانسيابي الدقيق */
         .loading-bar { width: 160px; height: 5px; background: rgba(0,0,0,0.06); margin: 30px auto 0 auto; border-radius: 10px; overflow: hidden; position: relative; }
         .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--accent), #e67e22); animation: progress 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
         @keyframes progress { from { width: 0; } to { width: 100%; } }
         
-        /* خروج ذكي للأعلى بدون أي تفاصيل تعليق أو نغمشة */
-        .splash-hidden { 
-            transform: translateY(-100%); 
-            opacity: 0; 
-            pointer-events: none; 
+        .splash-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+        /* =======================================================
+           تثبيت الجزء العلوي بالكامل (الهيدر + الأقسام) مع السكرول
+           ======================================================= */
+        .sticky-top-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--header-bg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
-        /* --- الهيدر --- */
         header { 
-            background: var(--header-bg); 
-            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.06);
             display: flex; flex-direction: column; align-items: center;
-            padding: 15px 0 10px 0;
+            padding: 12px 0 8px 0;
+            border-bottom: 0.5px solid rgba(0,0,0,0.05);
         }
 
-        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 12px; }
+        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 8px; }
         
         .header-logo-container {
-            width: 115px; height: 115px; 
-            border-radius: 28px; background: white;
-            padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;
+            width: 100px; height: 100px; 
+            border-radius: 25px; background: white;
+            padding: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;
         }
-        .header-logo { width: 100%; height: 100%; border-radius: 23px; object-fit: cover; }
+        .header-logo { width: 100%; height: 100%; border-radius: 20px; object-fit: cover; }
 
         .theme-toggle {
             position: absolute; right: 20px; top: 0;
-            width: 45px; height: 45px; background: var(--bg); border-radius: 14px;
+            width: 42px; height: 42px; background: var(--bg); border-radius: 12px;
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            font-size: 1.2rem; border: none; color: var(--main-text);
+            font-size: 1.1rem; border: none; color: var(--main-text);
         }
 
         .cart-trigger-container { position: absolute; left: 20px; top: 0; }
         .cart-trigger {
-            width: 45px; height: 45px; background: var(--bg); border-radius: 14px;
+            width: 42px; height: 42px; background: var(--bg); border-radius: 12px;
             display: flex; align-items: center; justify-content: center; position: relative;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .cart-trigger.shake { animation: cartShake 0.5s ease-in-out; }
         @keyframes cartShake {
@@ -154,28 +156,29 @@
         .badge.show { transform: scale(1); }
 
         .header-bottom-addr { 
-            text-align: center; width: 100%; padding: 10px 20px 0 20px; 
-            border-top: 0.5px solid rgba(0,0,0,0.08); 
+            text-align: center; width: 100%; padding: 6px 20px 0 20px; 
             display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px;
             flex-wrap: wrap;
         }
-        .addr-tag { color: var(--address-tag); font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-        .brand-addr { font-size: 0.85rem; color: var(--main-text); font-weight: 700; text-align: center; line-height: 1.4; }
+        .addr-tag { color: var(--address-tag); font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+        .brand-addr { font-size: 0.8rem; color: var(--main-text); font-weight: 700; text-align: center; line-height: 1.4; }
 
-        /* شريط الأقسام */
+        /* شريط الأقسام الثابت بشكل انسيابي أسفل الهيدر */
         .category-nav {
-            display: flex; overflow-x: auto; white-space: nowrap; padding: 15px 30px; gap: 32px;
+            display: flex; overflow-x: auto; white-space: nowrap; padding: 12px 20px; gap: 24px;
             scrollbar-width: none; background: var(--glass); backdrop-filter: blur(20px);
-            position: sticky; top: 195px; z-index: 999; border-bottom: 0.5px solid rgba(0,0,0,0.1);
+            -webkit-backdrop-filter: blur(20px);
         }
         .category-nav::-webkit-scrollbar { display: none; }
-        .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 100px; cursor: pointer; }
-        .cat-img-box { width: 58px; height: 58px; border-radius: 18px; background: #e5e5ea; overflow: hidden; border: 2.5px solid transparent; transition: 0.3s; }
+        .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 85px; cursor: pointer; }
+        .cat-img-box { width: 54px; height: 54px; border-radius: 16px; background: #e5e5ea; overflow: hidden; border: 2.5px solid transparent; transition: 0.3s; }
         .cat-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .cat-item.active .cat-img-box { border-color: var(--accent); transform: scale(1.05); }
-        .cat-item span { font-size: 0.75rem; font-weight: 800; color: var(--desc-text); margin-top: 6px; text-align: center; white-space: normal; word-break: keep-all; }
+        .cat-item span { font-size: 0.75rem; font-weight: 800; color: var(--desc-text); margin-top: 5px; text-align: center; white-space: normal; word-break: keep-all; }
 
+        /* تعديل المسافة للمحتوى لكي لا يختفي تحت الهيدر الثابت */
         .menu-list { padding: 15px; max-width: 600px; margin: auto; }
+        
         .food-card {
             background: var(--white); border-radius: 22px; margin-bottom: 15px; display: flex;
             padding: 14px; gap: 12px; align-items: flex-start; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
@@ -214,10 +217,7 @@
             border: 1px solid rgba(255,255,255,0.15);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .added-notice.show { 
-            opacity: 1; 
-            transform: scale(1) translateY(0);
-        }
+        .added-notice.show { opacity: 1; transform: scale(1) translateY(0); }
 
         .fly-item {
             position: fixed; z-index: 9999; pointer-events: none;
@@ -233,10 +233,7 @@
             border-top: 1px solid rgba(0,0,0,0.05); margin-top: 20px;
         }
         .footer-phones { margin-bottom: 15px; }
-        .footer-phones a { 
-            display: block; color: var(--accent); text-decoration: none; 
-            font-weight: 800; font-size: 1.1rem; margin: 5px 0; 
-        }
+        .footer-phones a { display: block; color: var(--accent); text-decoration: none; font-weight: 800; font-size: 1.1rem; margin: 5px 0; }
         .footer-rights { font-size: 0.8rem; color: var(--main-text); font-weight: 600; margin-bottom: 5px; }
         .dev-credit { font-size: 0.85rem; color: var(--desc-text); font-weight: 700; }
         .dev-credit a { color: var(--address-tag); text-decoration: none; display: block; margin-top: 3px; }
@@ -273,26 +270,29 @@
         </div>
     </div>
 
-    <header>
-        <div class="header-top">
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
-            <div class="header-logo-container">
-                <img src="./images/logggo.jpg" class="header-logo" onerror="this.src='images/logggo.jpg'">
-            </div>
-            <div class="cart-trigger-container">
-                <div class="cart-trigger" onclick="toggleCart(true)" id="cartBtn">
-                    <span class="badge" id="cartBadge">0</span>
-                    <span style="font-size: 1.3rem;">🛒</span>
+    <div class="sticky-top-container">
+        <header>
+            <div class="header-top">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+                <div class="header-logo-container">
+                    <img src="./images/logggo.jpg" class="header-logo" onerror="this.src='images/logggo.jpg'">
+                </div>
+                <div class="cart-trigger-container">
+                    <div class="cart-trigger" onclick="toggleCart(true)" id="cartBtn">
+                        <span class="badge" id="cartBadge">0</span>
+                        <span style="font-size: 1.3rem;">🛒</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="header-bottom-addr">
-            <span class="addr-tag">📍 العنوان:</span>
-            <span class="brand-addr">مدينة الشروق طريق جمال عبد الناصر داخل بنزينة بترومين</span>
-        </div>
-    </header>
+            <div class="header-bottom-addr">
+                <span class="addr-tag">📍 العنوان:</span>
+                <span class="brand-addr">مدينة الشروق طريق جمال عبد الناصر داخل بنزينة بترومين</span>
+            </div>
+        </header>
 
-    <div class="category-nav" id="catNav"></div>
+        <div class="category-nav" id="catNav"></div>
+    </div>
+
     <div id="menuList" class="menu-list"></div>
 
     <footer class="restaurant-footer">
@@ -331,7 +331,7 @@
         let menuData = [], cart = [];
         let currentTotal = 0; 
 
-        // إخفاء الشاشة إجبارياً بعد 4 ثواني كاملة ليعطي وقت وهيبة للأنيميشن واللمعة
+        // شاشة الترحيب تقعد 4 ثواني للأناقة واللمعة الفخمة
         setTimeout(dismissSplashScreen, 4000);
 
         function dismissSplashScreen() {
@@ -481,9 +481,7 @@
             recalculateCardPrice(itemId);
         }
 
-        function toggleCombo(itemId) {
-            recalculateCardPrice(itemId);
-        }
+        function toggleCombo(itemId) { recalculateCardPrice(itemId); }
 
         function recalculateCardPrice(itemId) {
             const card = document.getElementById(`card-${itemId}`);
@@ -491,9 +489,7 @@
             const comboCheckbox = document.getElementById(`combo-${itemId}`);
             const comboPrice = parseFloat(card.getAttribute('data-combo-price')) || 0;
             
-            if (comboCheckbox && comboCheckbox.checked) {
-                basePrice += comboPrice;
-            }
+            if (comboCheckbox && comboCheckbox.checked) { basePrice += comboPrice; }
             
             card.setAttribute('data-current-price', basePrice);
             document.getElementById(`price-display-${itemId}`).innerText = `${basePrice} ج.م`;
@@ -506,13 +502,7 @@
             const comboCheckbox = document.getElementById(`combo-${id}`);
             const isCombo = comboCheckbox ? comboCheckbox.checked : false;
 
-            cart.push({
-                name,
-                price: finalPrice,
-                size: selectedSize,
-                combo: isCombo,
-                img
-            });
+            cart.push({ name, price: finalPrice, size: selectedSize, combo: isCombo, img });
 
             const notice = btn.previousElementSibling;
             notice.classList.add('show');
