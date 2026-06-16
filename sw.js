@@ -1,4 +1,4 @@
-const CACHE_NAME = 'burger-baba-cache-v1';
+const CACHE_NAME = 'burger-baba-cache-v2'; // غيرنا v1 لخلاها v2
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
