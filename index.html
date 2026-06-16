@@ -342,7 +342,6 @@
             <h2 style="margin-bottom: 20px;"></h2>
             <div id="cartItemsList"></div>
             
-            <!--     -->
             <div class="order-type-tabs">
                 <button type="button" id="typeDelivery" class="type-tab-btn active" onclick="setOrderType('delivery')">  </button>
                 <button type="button" id="typePickup" class="type-tab-btn" onclick="setOrderType('pickup')">   </button>
@@ -389,23 +388,11 @@
         let isImagesPreloaded = false;
         let orderType = 'delivery'; 
 
-        //  :  3.5           
-        setTimeout(() => {
-            console.log("Force-dismissing splash screen due to timeout protection.");
-            isMenuLoaded = true;
-            isImagesPreloaded = true;
-            if (menuData.length > 0 && document.getElementById('catNav').innerHTML === "") {
-                renderNav();
-            }
-            dismissSplashScreen();
-        }, 3500);
+        setTimeout(checkAndDismissSplash, 4000);
 
         function checkAndDismissSplash() {
-            if (isMenuLoaded && isImagesPreloaded) { 
-                dismissSplashScreen(); 
-            } else { 
-                setTimeout(checkAndDismissSplash, 300); 
-            }
+            if (isMenuLoaded && isImagesPreloaded) { dismissSplashScreen(); } 
+            else { setTimeout(checkAndDismissSplash, 500); }
         }
 
         function dismissSplashScreen() {
@@ -424,7 +411,6 @@
         async function loadMenu() {
             try {
                 const response = await fetch(csvUrl);
-                if (!response.ok) throw new Error("Sheet response error");
                 const data = await response.text();
                 const rows = parseCSV(data).slice(1); 
                 
@@ -445,56 +431,35 @@
                 isMenuLoaded = true;
                 preloadAllImages();
             } catch (e) { 
-                console.error("Failed to parse menu data, bypassing loading to prevent lock:", e);
-                isMenuLoaded = true; 
-                isImagesPreloaded = true; 
-                dismissSplashScreen();
+                console.error(e);
+                isMenuLoaded = true; isImagesPreloaded = true; dismissSplashScreen();
             }
         }
 
         function preloadAllImages() {
-            try {
-                const imageUrls = [];
-                const uniqueCats = [...new Set(menuData.map(item => item.category))];
-                uniqueCats.forEach(cat => imageUrls.push(`${IMAGES_PATH}${cat}.jpg`));
-                menuData.forEach(item => imageUrls.push(item.img));
-                
-                if (imageUrls.length === 0) { 
-                    isImagesPreloaded = true; 
-                    renderNav();
-                    return; 
-                }
+            const imageUrls = [];
+            const uniqueCats = [...new Set(menuData.map(item => item.category))];
+            uniqueCats.forEach(cat => imageUrls.push(`${IMAGES_PATH}${cat}.jpg`));
+            menuData.forEach(item => imageUrls.push(item.img));
+            
+            if (imageUrls.length === 0) { isImagesPreloaded = true; return; }
 
-                let loadedCount = 0;
-                const totalImages = imageUrls.length;
-                const statusEl = document.getElementById('loadStatus');
+            let loadedCount = 0;
+            const totalImages = imageUrls.length;
+            const statusEl = document.getElementById('loadStatus');
 
-                //   :       
-                let fallbackTimeout = setTimeout(() => {
-                    if (!isImagesPreloaded) {
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+                img.onload = img.onerror = () => {
+                    loadedCount++;
+                    if(statusEl) { statusEl.innerText = `     (${loadedCount}/${totalImages})...`; }
+                    if (loadedCount >= totalImages) {
                         isImagesPreloaded = true;
                         renderNav();
                     }
-                }, 2000);
-
-                imageUrls.forEach(url => {
-                    const img = new Image();
-                    img.src = url;
-                    img.onload = img.onerror = () => {
-                        loadedCount++;
-                        if(statusEl) { statusEl.innerText = `     (${loadedCount}/${totalImages})...`; }
-                        if (loadedCount >= totalImages) {
-                            clearTimeout(fallbackTimeout);
-                            isImagesPreloaded = true;
-                            renderNav();
-                        }
-                    };
-                });
-            } catch(err) {
-                console.error("Preload images error caught:", err);
-                isImagesPreloaded = true;
-                renderNav();
-            }
+                };
+            });
         }
 
         function parseCSV(text) {
@@ -512,10 +477,6 @@
         }
 
         function renderNav() {
-            if(menuData.length === 0) {
-                document.getElementById('menuList').innerHTML = `<p style="text-align:center; padding:20px; font-weight:700;">         Google Sheet</p>`;
-                return;
-            }
             const uniqueCats = [...new Set(menuData.map(item => item.category))];
             document.getElementById('catNav').innerHTML = uniqueCats.map((cat, idx) => `
                 <div class="cat-item ${idx === 0 ? 'active' : ''}" onclick="filterCat('${cat}', this)">
@@ -647,6 +608,7 @@
             }, 700);
         }
 
+        //        
         function setOrderType(type) {
             orderType = type;
             document.getElementById('typeDelivery').classList.toggle('active', type === 'delivery');
@@ -752,7 +714,6 @@
         }
 
         loadMenu();
-        checkAndDismissSplash();
     </script>
 </body>
 </html>
