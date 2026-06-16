@@ -111,28 +111,29 @@
 
         header { 
           display: flex; flex-direction: column; align-items: center;
-          padding: 6px 0 4px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04);
+          padding: 8px 0 6px 0; border-bottom: 0.5px solid rgba(0,0,0,0.04);
         }
 
-        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 2px; }
+        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 4px; }
         
+        /* 🚀 تم تكبير اللوجو العلوي هنا من 65px إلى 90px */
         .header-logo-container {
-          width: 65px; height: 65px; 
-          border-radius: 16px; background: white;
-          padding: 2px; box-shadow: 0 3px 8px rgba(0,0,0,0.06); overflow: hidden;
+          width: 90px; height: 90px; 
+          border-radius: 22px; background: white;
+          padding: 2px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;
         }
-        .header-logo { width: 100%; height: 100%; border-radius: 14px; object-fit: cover; }
+        .header-logo { width: 100%; height: 100%; border-radius: 20px; object-fit: cover; }
 
         .theme-toggle {
-          position: absolute; right: 15px; top: 12px;
-          width: 36px; height: 36px; background: var(--bg); border-radius: 10px;
+          position: absolute; right: 15px; top: 25px; /* تم ترحيل التوسيط ليناسب الحجم الجديد */
+          width: 38px; height: 38px; background: var(--bg); border-radius: 10px;
           display: flex; align-items: center; justify-content: center; cursor: pointer;
           font-size: 1rem; border: none; color: var(--main-text);
         }
 
-        .cart-trigger-container { position: absolute; left: 15px; top: 12px; }
+        .cart-trigger-container { position: absolute; left: 15px; top: 25px; }
         .cart-trigger {
-          width: 36px; height: 36px; background: var(--bg); border-radius: 10px;
+          width: 38px; height: 38px; background: var(--bg); border-radius: 10px;
           display: flex; align-items: center; justify-content: center; position: relative;
         }
         .cart-trigger.shake { animation: cartShake 0.5s ease-in-out; }
@@ -151,7 +152,7 @@
         .badge.show { transform: scale(1); }
 
         .header-bottom-addr { 
-          text-align: center; width: 100%; padding: 2px 15px 0 15px; 
+          text-align: center; width: 100%; padding: 4px 15px 0 15px; 
           display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 4px; flex-wrap: wrap;
         }
         .addr-tag { color: var(--address-tag); font-weight: 800; font-size: 0.72rem; display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
@@ -159,15 +160,17 @@
 
         /* شريط الأقسام الثابت المدمج */
         .category-nav {
-          display: flex; overflow-x: auto; white-space: nowrap; padding: 6px 15px; gap: 16px;
+          display: flex; overflow-x: auto; white-space: nowrap; padding: 10px 15px; gap: 18px;
           scrollbar-width: none; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         }
         .category-nav::-webkit-scrollbar { display: none; }
-        .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 65px; cursor: pointer; }
-        .cat-img-box { width: 44px; height: 44px; border-radius: 12px; background: #e5e5ea; overflow: hidden; border: 2px solid transparent; transition: 0.3s; }
+        .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 75px; cursor: pointer; }
+        
+        /* 🚀 تم تكبير بوكس الصورة للأقسام هنا من 44px إلى 58px */
+        .cat-img-box { width: 58px; height: 58px; border-radius: 16px; background: #e5e5ea; overflow: hidden; border: 2px solid transparent; transition: 0.3s; }
         .cat-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .cat-item.active .cat-img-box { border-color: var(--accent); transform: scale(1.05); }
-        .cat-item span { font-size: 0.7rem; font-weight: 800; color: var(--desc-text); margin-top: 3px; text-align: center; white-space: normal; word-break: keep-all; }
+        .cat-item span { font-size: 0.75rem; font-weight: 800; color: var(--desc-text); margin-top: 5px; text-align: center; white-space: normal; word-break: keep-all; }
 
         .menu-list { padding: 12px; max-width: 600px; margin: auto; }
         
@@ -234,7 +237,6 @@
         .footer-phones { margin-bottom: 12px; }
         .footer-phones a { display: block; color: var(--accent); text-decoration: none; font-weight: 800; font-size: 1.1rem; margin: 5px 0; }
         
-        /* زرار اللوكيشن المعدل */
         .location-btn-container { margin: 15px 0 20px 0; }
         .location-btn {
             display: inline-flex; align-items: center; gap: 8px; background: #0a84ff; color: white;
@@ -301,7 +303,6 @@
                     </div>
                 </div>
             </div>
-            <!-- تم تعديل المدينة هنا إلى مدينة الشروق -->
             <div class="header-bottom-addr">
                 <span class="addr-tag">📍 العنوان:</span>
                 <span class="brand-addr">مدينة الشروق، طريق جمال عبد الناصر، بنزينة بترومين، أمام نادي سيتي كلوب</span>
@@ -320,7 +321,6 @@
             <a href="tel:01124415297">01124415297</a>
         </div>
         
-        <!-- تم تعديل النص هنا ليكون "عرض موقعنا" فقط -->
         <div class="location-btn-container">
             <a href="https://maps.app.goo.gl/HkDAcAdRJs1cyYf86?g_st=ac" target="_blank" class="location-btn">
                 <span>🗺️ عرض موقعنا</span>
