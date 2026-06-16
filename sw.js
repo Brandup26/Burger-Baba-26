@@ -1,54 +1,49 @@
-const CACHE_NAME = 'burger-baba-v1';
+const CACHE_NAME = 'burger-baba-cache-v1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './images/logggo.jpg'
+  './images/logggo.jpg',
+  'https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap'
 ];
 
-// تثبيت السيرفس وركر وكاش الملفات الأساسية
+// تثبيت ملف الـ Service Worker وحفظ الملفات الثابتة
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('🍔 [Burger Baba] كاش التثبيت جاهز وسلس');
       return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    })
   );
+  self.skipWaiting();
 });
 
-// تفعيل وتحديث الكاش القديم فوراً
+// تفعيل وتحديث الكاش وحذف القديم
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('🧹 [Burger Baba] تنظيف الكاش القديم');
+            console.log('Clearing old cache...');
             return caches.delete(cache);
           }
         })
       );
-    }).then(() => self.clients.claim())
+    })
   );
+  self.clients.claim();
 });
 
-// استراتيجية التشغيل السريع: الكاش أولاً ثم الشبكة
+// استراتيجية جلب البيانات (Cache First for speed)
 self.addEventListener('fetch', (event) => {
-  // لا تقم بكاش روابط شيت جوجل المتغيرة لضمان تحديث الأسعار فورا
+  // عدم عمل كاش لطلبات الـ Google Sheets لضمان تحديث الأسعار والمنيو باستمرار
   if (event.request.url.includes('docs.google.com')) {
-    return;
+    return fetch(event.request);
   }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // تحديث الكاش في الخلفية لضمان السرعة والتحديث المستمر
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
-          }
-        }).catch(() => {/* تجاهل خطأ الشبكة في الخلفية */});
-        
         return cachedResponse;
       }
       return fetch(event.request);

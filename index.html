@@ -457,7 +457,10 @@
                 img.src = url;
                 img.onload = img.onerror = () => {
                     loadedCount++;
-                    if(statusEl) { statusEl.innerText = `     (${loadedCount}/${totalImages})...`; }
+                    if(statusEl) { 
+                        //       
+                        statusEl.innerText = `     (${loadedCount}/${totalImages})...`; 
+                    }
                     if (loadedCount >= totalImages) {
                         isImagesPreloaded = true;
                         renderNav();
@@ -657,7 +660,7 @@
             let grandTotal = subtotal > 0 ? (subtotal + currentFee) : 0;
             
             document.getElementById('subtotalAmount').innerText = `${subtotal} .`;
-            document.getElementById('totalAmount').innerText = `${grandTotal} .m`;
+            document.getElementById('totalAmount').innerText = `${grandTotal} .`;
         }
 
         function removeFromCart(idx) {
